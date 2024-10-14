@@ -1,10 +1,10 @@
-**TCP1P CTF 2024: Minecraft-huh Blockchain Challenge Writeup**
+# **TCP1P CTF 2024: Minecraft-huh Blockchain Challenge Writeup**
 
 This is a writeup for the **“minecraft-huh”** blockchain challenge from the [TCP1P CTF 2024: Exploring Nusantara’s Digital Realm](https://ctftime.org/event/2256). At the conclusion of the competition, this challenge stood out as the least solved in the blockchain category.
 
 Personally, I found it to be quite unique and enjoyable, especially compared to other blockchain challenges. The absence of contract code required a fresh approach, pushing me to think outside the box.
 
-**Challenge Overview**
+## **Challenge Overview**
 
 To solve the challenge, we were provided with the following elements:
 
@@ -15,7 +15,7 @@ To solve the challenge, we were provided with the following elements:
 
 Most blockchain challenges rely on tools like web3.js (JavaScript) or web3.py (Python) to interact with the blockchain, but I prefer constructing my own API requests. This gives me more control over the requests, is much more intuitive to work with. For anyone interested, you can refer to the [official JSON-RPC API documentation](https://ethereum.github.io/execution-apis/api-documentation/) for more details.
 
-**Initial Recon**
+## **Initial Recon**
 
 The first step was to inspect the bytecode of the setup contract. I used the eth_getCode function on the provided setup contract address, retrieving the following bytecode:
 
@@ -30,7 +30,7 @@ To make sense of this, I used an [Ethereum Virtual Machine (EVM) decompiler](htt
 
 The isSolved() function is commonly found in CTF challenges as a way to determine if the contract’s goal has been met. The other function was unfamiliar, so I decided to dig deeper.
 
-**Investigating Storage**
+## **Investigating Storage**
 
 The unknown function’s logic included this interesting line:
 ```
@@ -38,7 +38,7 @@ var var2 = storage[0x00] & (0x01 << 0xa0) - 0x01;
 ```
 This line indicated that some key data was stored at position 0 in the contract’s persistent storage. Using eth_getStorageAt, I queried the contract’s storage at position 0, which returned the following value:
 ```
-0x000000000000000000000000d4e890155f7deafe2b286d0ca68003f07cf592ef
+0x000000000000000000000000ff2a39dfddc8327cdd03b02ea6cabc548ff95383
 ```
 This looks like an address, could it be another contract? Turns out, this is indeed the address of another contract! Decompiling its byte code we observe that this contract also defines two functions:
 
@@ -47,7 +47,7 @@ This looks like an address, could it be another contract? Turns out, this is ind
 
 Unfortunately, the decompiled code was too complex to extract meaningful information from these functions directly. It seemed like I had hit a dead end with exploring the second contract.
 
-**A Clue in the Challenge Description**
+## **A Clue in the Challenge Description**
 
 At this point, I revisited the challenge description, which mentioned: _“Say, everyone knows Minecraft, right? The game about mining block after block after block after block…”_
 
