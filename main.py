@@ -1,30 +1,29 @@
 from blockchain import Blockchain
-import requests
 
 # Set up blockchain connection
-blockchain = Blockchain("http://ctf.tcp1p.team:44555/02cf2760-7ef4-4fb9-bb12-f501320f8049")
+blockchain = Blockchain("http://45.32.119.201:44555/6df9f3e7-fa4f-48d8-9983-d116df6c1d91")
 
 # Initialize address and key
 blockchain.set_account(
-    "0x411cb5a52DaAd63D2328eBEec3803c1F4b3ac348",
-    "0xe9fbeadb03f522d913c9772ec415594907a49fe0b9d9899b2cef0d048a87905b"
+    "0x39dD6F988CFEe5FE0431de5236B64f693d63a549",
+    "0xf55787264cfe5b9863bcbc34409dde5fa95f481eb5d5c3ad7ce1dd578d4589c6"
 )
 
-# Define setup contract
-contract = "0x30513990A000e1E5C72ba3F43F4CaCad1EEc6e1e"
+# Define setup contract and get byte code
+contract = "0x655C116773Cb923a32F48aB7B37733Ce2186D449"
 print(blockchain.get_code(contract))
 
 # Get other contract
 fishy = blockchain.get_storage_at(contract, 0)[-40:]
+print(fishy)
 print(blockchain.get_code(fishy))
 
 # Iterate through blocks
-for block in range(9):
-    block = hex(block)
-    sentence_1 = blockchain.get_storage_at(fishy, 0, block)
-    sentence_2 = blockchain.call("0x729acff4", fishy, block)
+for nr in range(2, 9):
+    block = blockchain.get_block_by_number(nr, True)
+    print(block)
 
-    # hex to char
-    sentence_1 = bytes.fromhex(sentence_1[2:]).decode('utf-8')
-    sentence_2 = bytes.fromhex(sentence_2[2:]).decode('utf-8')
-    print(sentence_1, sentence_2)
+    # Extract input from the transactions
+    sentence_1 = block["transactions"][0]["input"][100:]
+    sentence_1 = bytes.fromhex(sentence_1).decode('utf-8')
+    print(sentence_1)
