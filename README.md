@@ -1,6 +1,6 @@
 # **TCP1P CTF 2024: Minecraft-huh Blockchain Challenge Writeup**
 
-This is a writeup for the **“minecraft-huh”** blockchain challenge from the [TCP1P CTF 2024: Exploring Nusantara’s Digital Realm](https://ctftime.org/event/2256). At the conclusion of the competition, this challenge stood out as the least solved in the blockchain category.
+This is a detailed writeup for the **“minecraft-huh”** blockchain challenge from the [TCP1P CTF 2024: Exploring Nusantara’s Digital Realm](https://ctftime.org/event/2256). At the conclusion of the competition, this challenge stood out as the least solved in the blockchain category.
 
 Personally, I found it to be quite unique and enjoyable, especially compared to other blockchain challenges. The absence of contract code required a fresh approach, pushing me to think outside the box. The code to solve the challenge is available on this public [repo](https://github.com/timapers/minecraft-huh/).
 
@@ -13,7 +13,7 @@ To solve the challenge, we were provided with the following elements:
 * __Setup contract address__: The public address of the setup contract.
 * __API__:  An endpoint for the blockchain’s JSON-RPC API.
 
-Most blockchain challenges rely on tools like web3.js (JavaScript) or web3.py (Python) to interact with the blockchain, but I prefer constructing my own API requests. This gives me more control over the requests, is much more intuitive to work with. For anyone interested, you can take a look at the [official JSON-RPC API documentation](https://ethereum.github.io/execution-apis/api-documentation/) for more details.
+Most blockchain challenges rely on tools like web3.js (JavaScript) or web3.py (Python) to interact with the blockchain, but I prefer constructing my own API requests. This gives me more control over the requests, and is much more intuitive to work with. For anyone interested, you can take a look at the [official JSON-RPC API documentation](https://ethereum.github.io/execution-apis/api-documentation/) for more details.
 
 ## **Initial Recon**
 
@@ -51,7 +51,7 @@ Unfortunately, the decompiled code was too complex to extract meaningful informa
 
 At this point, I revisited the challenge description, which mentioned: _“Say, everyone knows Minecraft, right? The game about mining block after block after block after block…”_
 
-This suggested that something might be hidden in the blockchain’s blocks. With this in mind, I wrote a script to loop through the blocks on the chain. Here’s what I found after inspecting the blockchain’s blocks:
+This suggested that something might be hidden in the blockchain’s blocks. With this in mind, I wrote a script to loop through the blocks on the chain. For this, you can use the eth_getBlockByNumber method. Below is the output of the script when inspecting the blockchain’s blocks:
 
 ```
 0 {'hash': '0x31ab1454682821dbc4f9219500345a4fee1009770b65ff945c5078842e68c9e7', 'parentHash': '0x0000000000000000000000000000000000000000000000000000000000000000', 'sha3Uncles': '0x1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347', 'miner': '0x0000000000000000000000000000000000000000', 'stateRoot': '0x0000000000000000000000000000000000000000000000000000000000000000', 'transactionsRoot': '0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421', 'receiptsRoot': '0x0000000000000000000000000000000000000000000000000000000000000000', 'logsBloom': '0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000', 'difficulty': '0x0', 'number': '0x0', 'gasLimit': '0x1c9c380', 'gasUsed': '0x0', 'timestamp': '0x670d7517', 'totalDifficulty': '0x0', 'extraData': '0x', 'mixHash': '0x0000000000000000000000000000000000000000000000000000000000000000', 'nonce': '0x0000000000000000', 'baseFeePerGas': '0x0', 'blobGasUsed': '0x0', 'excessBlobGas': '0x0', 'uncles': [], 'transactions': [], 'size': '0x201'}
@@ -74,7 +74,7 @@ There were 9 blocks in total, and I noticed that a specific address made unusual
 7 0x09308dfd0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001754686174206973206c616d652c206e657665726d696e64000000000000000000
 8 0x09308dfd000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000334f682074686973206d6967687420626520676f6f642054435032507b6365727461696e6c795f6e6f745f746869735f6f6e657d00000000000000000000000000
 ```
-The data format resembled hex-encoded strings. Converting these hex strings to human-readable text yielded the following messages:
+After the function signature, the data format resembled hex-encoded strings. Converting these hex strings to human-readable text yielded the following messages for every transaction:
 
 ```
 2 TCP3P{this_is_one_p_not_three_p}
