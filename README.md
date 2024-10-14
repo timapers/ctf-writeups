@@ -2,7 +2,7 @@
 
 This is a writeup for the **“minecraft-huh”** blockchain challenge from the [TCP1P CTF 2024: Exploring Nusantara’s Digital Realm](https://ctftime.org/event/2256). At the conclusion of the competition, this challenge stood out as the least solved in the blockchain category.
 
-Personally, I found it to be quite unique and enjoyable, especially compared to other blockchain challenges. The absence of contract code required a fresh approach, pushing me to think outside the box.
+Personally, I found it to be quite unique and enjoyable, especially compared to other blockchain challenges. The absence of contract code required a fresh approach, pushing me to think outside the box. The code to solve the challenge is available on this public [repo](https://github.com/timapers/minecraft-huh/).
 
 ## **Challenge Overview**
 
@@ -13,7 +13,7 @@ To solve the challenge, we were provided with the following elements:
 * __Setup contract address__: The public address of the setup contract.
 * __API__:  An endpoint for the blockchain’s JSON-RPC API.
 
-Most blockchain challenges rely on tools like web3.js (JavaScript) or web3.py (Python) to interact with the blockchain, but I prefer constructing my own API requests. This gives me more control over the requests, is much more intuitive to work with. For anyone interested, you can refer to the [official JSON-RPC API documentation](https://ethereum.github.io/execution-apis/api-documentation/) for more details.
+Most blockchain challenges rely on tools like web3.js (JavaScript) or web3.py (Python) to interact with the blockchain, but I prefer constructing my own API requests. This gives me more control over the requests, is much more intuitive to work with. For anyone interested, you can take a look at the [official JSON-RPC API documentation](https://ethereum.github.io/execution-apis/api-documentation/) for more details.
 
 ## **Initial Recon**
 
